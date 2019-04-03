@@ -149,16 +149,30 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 
 void Game::ShutDown() {
 	// TODO: deallocate the stuff you created in Start()
+
+	// deallocate animation
+	if (anim != nullptr) {
+		delete anim;
+		anim = nullptr;
+	}
 }
 
 
 void Game::Destroy() {
 	// deallocates the SDL_Window*
-	SDL_DestroyWindow(sdlWindow);
-	sdlWindow = nullptr;
+	if (sdlWindow != nullptr) {
+		// de-allocate the window
+		SDL_DestroyWindow(sdlWindow);
+		// reset the pointer to null
+		sdlWindow = nullptr;
+	}
 	// deallocates the SDL_Renderer*
-	SDL_DestroyRenderer(sdlRenderer);
-	sdlRenderer = nullptr;
+	if (sdlRenderer != nullptr) {
+		// de-allocate the renderer
+		SDL_DestroyRenderer(sdlRenderer);
+		// reset the pointer to null
+		sdlRenderer = nullptr;
+	}
 	// shuts down the SDL framework
 	SDL_Quit();
 }

@@ -25,8 +25,8 @@ public:
 	void Draw(SDL_Renderer* renderer, int x, int y, SDL_Rect* sourceRect = NULL);
 
 	// return the texture dimensions
-	int GetImageWidth() { return m_width; }
-	int GetImageHeight() { return m_height; }
+	const int GetImageWidth() const { return m_width; }
+	const int GetImageHeight() const { return m_height; }
 
 	// remove texture from the memory
 	void ResetTexture();

@@ -53,6 +53,5 @@ private:
 	Texture* m_playerTexture;
 	// Animating the player
 	Animation* anim;
-	Animation* orangeBlob;
  };
 

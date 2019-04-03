@@ -1,6 +1,6 @@
 #include "Animation.h"
 
-
+// reset all the variables to null
 Animation::Animation() : m_frameDuration(0.0f), m_currentFrame(0), 
 						m_spriteSheet(nullptr), m_frameTimer(0.0f){
 }
@@ -8,15 +8,23 @@ Animation::Animation() : m_frameDuration(0.0f), m_currentFrame(0),
 Animation::Animation(Texture * spriteSheet, float frameDuration) {
 	// load the sprite sheet
 	m_spriteSheet = spriteSheet;	
-	
+	// time for each frame
 	m_frameDuration = frameDuration;
+	// timer
 	m_frameTimer = 0.0f;
+	// current frame in the sprite sheet
 	m_currentFrame = 0;
 }
 
 void Animation::AddFrame(int x, int y, int w, int h) {
+	// create a frame from given position and size
 	SDL_Rect frame = { x, y, w, h };
+	// push the frame into the array
 	m_frames.push_back(frame);
+}
+
+const int Animation::GetFrameSize() const {
+	return m_frames.size();
 }
 
 void Animation::Update(float deltaTime) {
@@ -44,12 +52,8 @@ void Animation::Update(float deltaTime) {
 void Animation::Draw(SDL_Renderer * renderer, int x, int y) {
 	// get the current frame clipping region
 	SDL_Rect sourceRect = m_frames[m_currentFrame];
-	//sourceRect.x = m_currentFrame * m_frameWidth;
-	//sourceRect.y = 0;
-	//sourceRect.w = m_frameWidth;
-	//sourceRect.h = m_frameHeight;
 	// draw
-	m_spriteSheet->Draw(renderer, x, y, &sourceRect);
+	m_spriteSheet->Draw(renderer, x, y, &m_frames[m_currentFrame]);
 }
 
 Animation::~Animation() {
