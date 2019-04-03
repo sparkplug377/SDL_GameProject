@@ -37,16 +37,24 @@ bool Game::Start() {
 		// initialize player texture
 		m_playerTexture = new Texture();
 		// load the texture
-		if (m_playerTexture->LoadPNGFromFile("../assets/old_enemies.png", sdlRenderer)) {
+		if (m_playerTexture->LoadPNGFromFile("../assets/braid_run.png", sdlRenderer)) {
 			std::cout << "Load player texture - success" << std::endl;
 			// initialize player animation
-			anim = new Animation(m_playerTexture, 0.05f);
-			anim->AddFrame(17, 18, 31 - 17, 14);
-			anim->AddFrame(32, 18, 47 - 32, 14);
-			anim->AddFrame(47, 18, 64 - 47, 14);
-			anim->AddFrame(65, 18, 79 - 64, 14);
-			anim->AddFrame(80, 18, 95 - 80, 14);
-			anim->AddFrame(96, 18, 111 - 96, 14);
+			anim = new Animation(m_playerTexture, 0.03f);
+			int texWidth = m_playerTexture->GetImageWidth() / 10;
+			int texHeight = m_playerTexture->GetImageHeight() / 3;
+			int totalFrames = 26;
+			int col = 0;
+			int row = 0;
+			while (totalFrames >= 0) {
+				anim->AddFrame(col * texWidth, row * texHeight, 200, 200);
+				++col;
+				if (col >= 10) {
+					col = 0;
+					++row;
+				}
+				--totalFrames;
+			}
 		}
 		else {
 			std::cout << "Load player texture - failed" << std::endl;
@@ -92,7 +100,9 @@ void Game::Draw() {
 
 	// TODO: draw your stuff here
 	// Render the animation on the screen
-	anim->Draw(sdlRenderer, 100, 200);
+	if (anim->GetFrameSize() > 0) {
+		anim->Draw(sdlRenderer, 100, 200);
+	}
 
 	// SDL_Renderer* draws to the hidden target. 
 	// This function will take all of that and draws all of that in the window tied to the renderer

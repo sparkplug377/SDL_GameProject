@@ -3,6 +3,7 @@
 #include "Game.h"
 
 int main(int argc, char** argv) {
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// allocate the object of the game class
 	Game* game = new Game();
 	// runs the game

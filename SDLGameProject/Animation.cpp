@@ -50,8 +50,6 @@ void Animation::Update(float deltaTime) {
 }
 
 void Animation::Draw(SDL_Renderer * renderer, int x, int y) {
-	// get the current frame clipping region
-	SDL_Rect sourceRect = m_frames[m_currentFrame];
 	// draw
 	m_spriteSheet->Draw(renderer, x, y, &m_frames[m_currentFrame]);
 }

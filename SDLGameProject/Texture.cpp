@@ -24,7 +24,7 @@ bool Texture::LoadBMPFromFile(const char* path, SDL_Renderer* renderer) {
 			std::cout << "Load Texture - success" << std::endl;
 
 			// color key image
-			//SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 255, 255));
+			SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 255, 255));
 
 			// create texture from surface pixels
 			m_texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
