@@ -40,7 +40,7 @@ bool Game::Start() {
 		if (m_playerTexture->LoadPNGFromFile("../assets/old_enemies.png", sdlRenderer)) {
 			std::cout << "Load player texture - success" << std::endl;
 			// initialize player animation
-			anim = new Animation(m_playerTexture, 1, 0.05f);
+			anim = new Animation(m_playerTexture, 0.05f);
 			anim->AddFrame(17, 18, 31 - 17, 14);
 			anim->AddFrame(32, 18, 47 - 32, 14);
 			anim->AddFrame(47, 18, 64 - 47, 14);

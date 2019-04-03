@@ -1,22 +1,14 @@
 #include "Animation.h"
 
 
-Animation::Animation() : m_numberOfFrames(0), 
-						m_frameWidth(0), m_frameHeight(0), 
-						m_frameDuration(0.0f), m_currentFrame(0), 
+Animation::Animation() : m_frameDuration(0.0f), m_currentFrame(0), 
 						m_spriteSheet(nullptr), m_frameTimer(0.0f){
 }
 
-Animation::Animation(Texture * spriteSheet, int numberOfFrames, float frameDuration) {
+Animation::Animation(Texture * spriteSheet, float frameDuration) {
 	// load the sprite sheet
-	m_spriteSheet = spriteSheet;
-	m_numberOfFrames = numberOfFrames;
+	m_spriteSheet = spriteSheet;	
 	
-	// check if the sprite sheet has been loaded successfully
-	if (m_spriteSheet != nullptr) {
-		m_frameWidth = m_spriteSheet->GetImageWidth() / m_numberOfFrames;
-		m_frameHeight = m_spriteSheet->GetImageHeight();
-	}
 	m_frameDuration = frameDuration;
 	m_frameTimer = 0.0f;
 	m_currentFrame = 0;
