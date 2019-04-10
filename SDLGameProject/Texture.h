@@ -1,4 +1,6 @@
-#pragma once
+#ifndef TEXTURE_H_
+#define TEXTURE_H_
+
 // using SDL
 #include <SDL.h>
 #include <SDL_image.h>
@@ -43,3 +45,4 @@ private:
 
 };
 
+#endif

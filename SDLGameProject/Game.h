@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Animation.h"
+#include "Player.h"
+#include "Enemy.h"
 
 class Game {
 public:
@@ -53,5 +55,11 @@ private:
 	Texture* m_playerTexture;
 	// Animating the player
 	Animation* anim;
+
+	//creating a player
+	Player* m_player;
+	Texture* m_newTexture;
+
+	GameObject* player;
  };
 

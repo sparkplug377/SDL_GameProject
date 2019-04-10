@@ -61,7 +61,11 @@ bool Game::Start() {
 			return false;
 		}
 
+		m_newTexture = new Texture();
+		m_newTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
+		m_player = new Player(m_newTexture, 100, 10);
 		
+
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
 
@@ -74,6 +78,7 @@ bool Game::Start() {
 
 void Game::ProcessInput() {
 	// TODO: Get the user input here
+	m_player->Input();
 }
 
 
@@ -85,10 +90,11 @@ void Game::Update() {
 	float deltaTime = ticks / 1000.0f;
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+	//std::cout << "DeltaTime: " << deltaTime <<  std::endl;
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);
+	m_player->Update(deltaTime);
 }
 
 
@@ -103,6 +109,8 @@ void Game::Draw() {
 	if (anim->GetFrameSize() > 0) {
 		anim->Draw(sdlRenderer, 100, 200);
 	}
+	
+	m_player->Draw(sdlRenderer);
 
 	// SDL_Renderer* draws to the hidden target. 
 	// This function will take all of that and draws all of that in the window tied to the renderer
