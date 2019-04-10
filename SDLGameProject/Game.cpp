@@ -61,10 +61,16 @@ bool Game::Start() {
 			return false;
 		}
 
-		m_newTexture = new Texture();
-		m_newTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
-		m_player = new Player(m_newTexture, 100, 10);
+		Texture* playerTexture = new Texture();
+		playerTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
+		m_player = new Player(playerTexture, 100, 10);
 		
+		for (int i = 0; i < 5; ++i) {
+			Texture* enemyTexture = new Texture();
+			enemyTexture->LoadPNGFromFile("../assets/fighter02.png", sdlRenderer);
+			Enemy* enemy = new Enemy(enemyTexture, i * 10, i * 20);
+			m_enemies.push_back(enemy);
+		}
 
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
@@ -77,8 +83,23 @@ bool Game::Start() {
 
 
 void Game::ProcessInput() {
+
+	SDL_Event inputEvent;
+	if (SDL_PollEvent(&inputEvent)) {
+		switch (inputEvent.type) {
+		case SDL_KEYDOWN:
+			if (inputEvent.key.keysym.sym == SDLK_ESCAPE) {
+				isGameOver = true;
+			}
+		}
+	}
+
 	// TODO: Get the user input here
 	m_player->Input();
+
+	for (int i = 0; i < m_enemies.size(); ++i) {
+		m_enemies[i]->Input();
+	}
 }
 
 
@@ -90,11 +111,15 @@ void Game::Update() {
 	float deltaTime = ticks / 1000.0f;
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	//std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);
 	m_player->Update(deltaTime);
+
+	for (auto itr = m_enemies.begin(); itr != m_enemies.end(); ++itr) {
+		(*itr)->Update(deltaTime);
+	}
 }
 
 
@@ -111,6 +136,10 @@ void Game::Draw() {
 	}
 	
 	m_player->Draw(sdlRenderer);
+
+	for (GameObject* e : m_enemies) {
+		e->Draw(sdlRenderer);
+	}
 
 	// SDL_Renderer* draws to the hidden target. 
 	// This function will take all of that and draws all of that in the window tied to the renderer
@@ -172,6 +201,20 @@ void Game::ShutDown() {
 	if (anim != nullptr) {
 		delete anim;
 		anim = nullptr;
+	}
+
+	// deallocate player
+	if (m_player != nullptr) {
+		delete m_player;
+		m_player == nullptr;
+	}
+
+	// deallocate the array of enemies
+	for (auto e : m_enemies) {
+		if (e != nullptr) {
+			delete e;
+			e = nullptr;
+		}
 	}
 }
 

@@ -56,10 +56,10 @@ private:
 	// Animating the player
 	Animation* anim;
 
-	//creating a player
+	// creating a player
 	Player* m_player;
-	Texture* m_newTexture;
 
-	GameObject* player;
+	// creating enemies
+	std::vector<GameObject*> m_enemies;
  };
 
