@@ -63,12 +63,13 @@ bool Game::Start() {
 
 		Texture* playerTexture = new Texture();
 		playerTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
-		m_player = new Player(playerTexture, 100, 10);
+		m_player = new Player(playerTexture, Vector2(100, 10));
 		
 		for (int i = 0; i < 5; ++i) {
 			Texture* enemyTexture = new Texture();
 			enemyTexture->LoadPNGFromFile("../assets/fighter02.png", sdlRenderer);
-			Enemy* enemy = new Enemy(enemyTexture, i * 10, i * 20);
+			Vector2 pos = Vector2(i * 10, i * 20);
+			Enemy* enemy = new Enemy(enemyTexture, pos);
 			m_enemies.push_back(enemy);
 		}
 
@@ -83,7 +84,7 @@ bool Game::Start() {
 
 
 void Game::ProcessInput() {
-
+	// Escape key to exit
 	SDL_Event inputEvent;
 	if (SDL_PollEvent(&inputEvent)) {
 		switch (inputEvent.type) {
@@ -104,11 +105,13 @@ void Game::ProcessInput() {
 
 
 void Game::Update() {
+
 	// calculate deltaTime
 	// current time - time since last update
 	unsigned int ticks = SDL_GetTicks() - lastUpdate;
 	// change this to milliseconds;
-	float deltaTime = ticks / 1000.0f;
+	float deltaTime = (ticks / 1000.0f);
+
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
 	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
@@ -206,7 +209,7 @@ void Game::ShutDown() {
 	// deallocate player
 	if (m_player != nullptr) {
 		delete m_player;
-		m_player == nullptr;
+		m_player = nullptr;
 	}
 
 	// deallocate the array of enemies

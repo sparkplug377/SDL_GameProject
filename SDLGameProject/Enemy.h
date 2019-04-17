@@ -3,7 +3,7 @@
 class Enemy : public GameObject{
 public:
 	Enemy();
-	Enemy(Texture* texture, int posX, int posY);
+	Enemy(Texture* texture, Vector2 pos);
 	virtual void Draw(SDL_Renderer* renderer);
 	virtual void Update(float deltaTime);
 	virtual void Input();

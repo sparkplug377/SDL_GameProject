@@ -4,8 +4,7 @@
 
 GameObject::GameObject() {
 	std::cout << "gameobject constructor" << std::endl;
-	m_positionX = 0;
-	m_positionY = 0;
+	m_position = Vector2(0, 0);
 	m_texture = nullptr;
 }
 

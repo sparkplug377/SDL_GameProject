@@ -3,24 +3,21 @@
 
 
 Enemy::Enemy() {
-	m_positionX = 0;
-	m_positionY = 0;
+	m_position = Vector2(0, 0);
 	m_texture = nullptr;
 	std::cout << "Enemy constructor" << std::endl;
 }
 
-Enemy::Enemy(Texture * texture, int posX, int posY) {
+Enemy::Enemy(Texture * texture, Vector2 pos) {
 	m_texture = texture;
-	m_positionX = posX;
-	m_positionY = posY;
+	this->m_position = pos;
 }
 
 void Enemy::Draw(SDL_Renderer * renderer) {
-	m_texture->Draw(renderer, m_positionX, m_positionY);
+	m_texture->Draw(renderer, m_position.x, m_position.y);
 }
 
 void Enemy::Update(float deltaTime) {
-	m_positionX += 100.0f * deltaTime;
 }
 
 void Enemy::Input() {

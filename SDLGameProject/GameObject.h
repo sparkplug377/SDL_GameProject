@@ -2,6 +2,7 @@
 #define GAMEOBJECT_H_
 
 #include "Texture.h"
+#include "Vector2.h"
 
 class GameObject {
 public:
@@ -13,8 +14,7 @@ public:
 	virtual void Input() = 0;
 
 protected:
-	int m_positionX;
-	int m_positionY;
+	Vector2 m_position;
 	Texture* m_texture;
 };
 #endif
