@@ -6,7 +6,10 @@
 
 class Game {
 public:
-	Game();
+	static Game* GetInstance();
+
+	// @brief creates an instance of this class
+	static void Create();
 
 	// @brief	creates the renderer 
 	//			Intial allocations of the objects are done here 
@@ -38,14 +41,21 @@ public:
 	//			shutdown the SDL framework
 	void Destroy();
 
+	// @brief	returns if the game loop has ended
+	void Quit();
 
 	~Game();
 
 private:
+	Game();
+	// Singleton instance of this class
+	static Game* m_instance;
+
 	// the window we will be rendering to
 	SDL_Window* sdlWindow;
 	// 2D rendering context for a window
 	SDL_Renderer* sdlRenderer;
+
 	// flag for the game loop
 	bool isGameOver;
 	// gets the current time since last update

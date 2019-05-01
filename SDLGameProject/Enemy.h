@@ -6,7 +6,7 @@ public:
 	Enemy(Texture* texture, Vector2 pos);
 	virtual void Draw(SDL_Renderer* renderer);
 	virtual void Update(float deltaTime);
-	virtual void Input();
+	virtual void HandleInput();
 	~Enemy();
 };
 

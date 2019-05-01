@@ -27,24 +27,29 @@ void Player::Draw(SDL_Renderer* renderer) {
 	m_texture->Draw(renderer, m_position.x, m_position.y);
 }
 
-void Player::Input() {
-	SDL_Event event;
-	if (SDL_PollEvent(&event)) {
-		if (event.type == SDL_KEYDOWN) {
-			if (event.key.keysym.sym == SDLK_w) {
-				SetForce(Vector2(0, -1000));
-			}
-			if (event.key.keysym.sym == SDLK_s) {
-				SetForce(Vector2(0, 1000));
-			}
-			if (event.key.keysym.sym == SDLK_a) {
-				SetForce(Vector2(-1000, 0));
-			}
-			if (event.key.keysym.sym == SDLK_d) {
-				SetForce(Vector2(1000, 0));
-			}
-		}
+void Player::HandleInput() {
+	m_input = Input::GetInstance();
+	//if (m_input->IsKeyDown(SDL_SCANCODE_W)) {
+	//	SetForce(Vector2(0, -1000));
+	//}
+	//if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
+	//	SetForce(Vector2(0, 1000));
+	//}
+	//if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
+	//	SetForce(Vector2(-1000, 0));
+	//}
+	//if (m_input->IsKeyDown(SDL_SCANCODE_D)) {
+	//	SetForce(Vector2(1000, 0));
+	//}
+	int x = 0;
+	int y = 0;
+	m_input->GetMousePos(&x, &y);
+
+	if (m_input->IsMouseDown(MOUSE_BUTTON_LEFT)) {
+		SetForce(Vector2(x - m_position.x, y - m_position.y));
 	}
+
+	std::cout << x << ", " << y << std::endl;
 }
 
 void Player::SetForce(Vector2 force)

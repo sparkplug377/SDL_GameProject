@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 
+Game* Game::m_instance = nullptr;
+
 // default constructor
 Game::Game() {
 	// set the SDL window pointer to null
@@ -25,6 +27,18 @@ Game::Game() {
 	}
 }
 
+
+Game * Game::GetInstance()
+{
+	return m_instance;
+}
+
+void Game::Create()
+{
+	if (m_instance == nullptr) {
+		m_instance = new Game();
+	}
+}
 
 bool Game::Start() {
 	// create the renderer for the window created.
@@ -76,6 +90,9 @@ bool Game::Start() {
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
 
+		// Create an input
+		Input::Create();
+
 		return true;
 	}
 	std::cout << "Create Renderer - failed" << std::endl;
@@ -84,22 +101,19 @@ bool Game::Start() {
 
 
 void Game::ProcessInput() {
-	// Escape key to exit
-	SDL_Event inputEvent;
-	if (SDL_PollEvent(&inputEvent)) {
-		switch (inputEvent.type) {
-		case SDL_KEYDOWN:
-			if (inputEvent.key.keysym.sym == SDLK_ESCAPE) {
-				isGameOver = true;
-			}
-		}
+	// Update the input
+	Input::GetInstance()->UpdateInput();
+
+	// press escape to exit
+	if (Input::GetInstance()->IsKeyDown(SDL_SCANCODE_ESCAPE)) {
+		Quit();
 	}
 
 	// TODO: Get the user input here
-	m_player->Input();
+	m_player->HandleInput();
 
 	for (int i = 0; i < m_enemies.size(); ++i) {
-		m_enemies[i]->Input();
+		m_enemies[i]->HandleInput();
 	}
 }
 
@@ -114,7 +128,7 @@ void Game::Update() {
 
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+	//std::cout << "DeltaTime: " << deltaTime <<  std::endl;
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);
@@ -219,6 +233,9 @@ void Game::ShutDown() {
 			e = nullptr;
 		}
 	}
+
+	// remove input from memory
+	Input::Destroy();
 }
 
 
@@ -239,6 +256,19 @@ void Game::Destroy() {
 	}
 	// shuts down the SDL framework
 	SDL_Quit();
+
+	// destory this class
+	if (m_instance != nullptr) {
+		delete m_instance;
+		m_instance = nullptr;
+	}
+}
+
+void Game::Quit()
+{
+	if (!isGameOver) {
+		isGameOver = true;
+	}
 }
 
 // destructor

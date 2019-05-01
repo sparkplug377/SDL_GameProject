@@ -44,8 +44,7 @@ float Vector2::Magnitude(){
 	return mag;
 }
 
-void Vector2::Normalize()
-{
+void Vector2::Normalize(){
 	float mag = 0.0f;
 	mag = sqrtf(x * x + y * y);
 	this->x = this->x / mag;
