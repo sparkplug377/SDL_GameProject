@@ -128,7 +128,7 @@ void Game::Update() {
 
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	//std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);

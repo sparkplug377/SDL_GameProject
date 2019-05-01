@@ -11,6 +11,9 @@ Input::Input()
 	for (int i = 0; i < 5; ++i) {
 		m_mouseButtonStates.push_back(false);
 	}
+
+	m_mouseX = 0;
+	m_mouseY = 0;
 }
 
 

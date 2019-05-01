@@ -3,6 +3,8 @@
 
 #include <SDL.h>
 #include <vector>
+
+// list of buttons for the mouse
 enum MouseInput {
 	MOUSE_BUTTON_LEFT	= 0,
 	MOUSE_BUTTON_RIGHT	= 1,
@@ -14,28 +16,37 @@ enum MouseInput {
 class Input
 {
 public:
+	// @brief	Input is a singleton class.
+	//			returns the instance of the input class
 	static Input* GetInstance();
 
+	// @brief	creates an instance of the input class
 	static void Create();
+	// @brief	destroys the instance of the input class
 	static void Destroy();
 
 	~Input();
 
+	// @brief	updates the keyboard and mouse events.
 	void UpdateInput();
 
 	// keyboard handling events
+	// @brief	key pressed
 	bool IsKeyDown(SDL_Scancode key);
+	// @brief	key released
 	bool IsKeyUp(SDL_Scancode key);
 
 	// mouse handling events
+	// @brief	mouse button pressed
 	bool IsMouseDown(MouseInput button);
+	// @brief	mouse button released
 	bool IsMouseUp(MouseInput button);
 	
-	// returns the x position of mouse
+	// @brief	returns the x position of mouse
 	int GetMouseX();
-	// returns the y position of mouse
+	// @brief	returns the y position of mouse
 	int GetMouseY();
-	// returns the x and y position of mouse
+	// @brief	returns the x and y position of mouse
 	void GetMousePos(int* x, int *y);
 
 private:
