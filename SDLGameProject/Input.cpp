@@ -8,10 +8,11 @@ Input::Input()
 	m_keyboardState = 0;
 
 	// setting the button states to false by default
-	for (int i = 0; i < 5; ++i) {
+	for (int i = 0; i < 7; ++i) {
 		m_mouseButtonStates.push_back(false);
 	}
 
+	// initialize the mouse locations
 	m_mouseX = 0;
 	m_mouseY = 0;
 }

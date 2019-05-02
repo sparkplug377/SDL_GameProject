@@ -14,18 +14,18 @@ Vector2 Vector2::operator+(const Vector2 & anotherVector){
 }
 
 Vector2 Vector2::operator+=(const Vector2 & anotherVector){
-	this->x = this->x + anotherVector.x;
-	this->y = this->y + anotherVector.y;
+	this->x += anotherVector.x;
+	this->y += anotherVector.y;
 	return *this;
 }
 
 Vector2 Vector2::operator-(const Vector2 & anotherVector){
-	return Vector2(anotherVector.x - this->x, anotherVector.y - this->y);
+	return Vector2(this->x - anotherVector.x, this->y - anotherVector.y);
 }
 
 Vector2 Vector2::operator-=(const Vector2 & anotherVector){
-	this->x = anotherVector.x - this->x;
-	this->y = anotherVector.y - this->y;
+	this->x -= anotherVector.x;
+	this->y -= anotherVector.y;
 	return *this;
 }
 
@@ -47,8 +47,8 @@ float Vector2::Magnitude(){
 void Vector2::Normalize(){
 	float mag = 0.0f;
 	mag = sqrtf(x * x + y * y);
-	this->x = this->x / mag;
-	this->y = this->y / mag;
+	this->x /= mag;
+	this->y /= mag;
 }
 
 Vector2::~Vector2(){

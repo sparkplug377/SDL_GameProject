@@ -45,7 +45,7 @@ void Player::HandleInput() {
 	int y = 0;
 	m_input->GetMousePos(&x, &y);
 
-	if (m_input->IsMouseUp(MOUSE_BUTTON_LEFT)) {
+	if (m_input->IsMouseDown(MOUSE_BUTTON_LEFT)) {
 		SetForce(Vector2(x - m_position.x, y - m_position.y));
 	}
 
