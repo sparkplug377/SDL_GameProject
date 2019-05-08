@@ -17,30 +17,15 @@ Player::Player(Texture * texture, Vector2 pos) {
 	m_acceleration = Vector2(0, 0);
 	// set up the collider
 	m_collider = new AABB(m_position, m_texture->GetImageWidth(), m_texture->GetImageHeight());
-	m_maxVelocity = 100.0f;
+	m_maxVelocity = 200.0f;
 }
 
 void Player::Update(float deltaTime) {
 	SetForce(m_velocity * -2.00f);
 	m_velocity = m_velocity + m_acceleration * deltaTime;
-	SDL_Log("Velocity: %i, %i", m_velocity.x, m_velocity.y);
+	SDL_Log("Velocity: %f, %f", m_velocity.x, m_velocity.y);
 	m_position = m_position + m_velocity * deltaTime;
 	m_acceleration = Vector2(0, 0);
-	
-	// need to work on setting limit to the velocity
-	if (m_velocity.x > 100.0f) {
-		m_velocity.x = m_maxVelocity;
-	}
-	if (m_velocity.y > 100.0f) {
-		m_velocity.y = m_maxVelocity;
-	}
-	if (m_velocity.x < -100.0f) {
-		m_velocity.x = -m_maxVelocity;
-	}
-	if (m_velocity.y < -100.0f) {
-		m_velocity.y = -m_maxVelocity;
-	}
-
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
