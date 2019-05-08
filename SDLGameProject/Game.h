@@ -8,6 +8,8 @@ class Game {
 public:
 	static Game* GetInstance();
 
+	// Engine Functions =====================================================================
+
 	// @brief creates an instance of this class
 	static void Create();
 
@@ -44,6 +46,10 @@ public:
 	// @brief	returns if the game loop has ended
 	void Quit();
 
+	// Game Functions =====================================================================
+	bool CollisionCheck(Player* p, Enemy* e);
+
+
 	~Game();
 
 private:
@@ -70,6 +76,6 @@ private:
 	Player* m_player;
 
 	// creating enemies
-	std::vector<GameObject*> m_enemies;
+	std::vector<Enemy*> m_enemies;
  };
 

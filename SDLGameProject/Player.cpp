@@ -7,39 +7,71 @@ Player::Player() {
 	m_acceleration = Vector2(0, 0);
 	m_texture = nullptr;
 	std::cout << "player constructor" << std::endl;
+	m_collider = nullptr;
+	m_maxVelocity = 0.0f;
 }
 
 Player::Player(Texture * texture, Vector2 pos) {
 	m_texture = texture;
 	this->m_position = pos;
 	m_acceleration = Vector2(0, 0);
+	// set up the collider
+	m_collider = new AABB(m_position, m_texture->GetImageWidth(), m_texture->GetImageHeight());
+	m_maxVelocity = 100.0f;
 }
 
 void Player::Update(float deltaTime) {
-	SetForce(m_velocity * -0.15f);
+	SetForce(m_velocity * -2.00f);
 	m_velocity = m_velocity + m_acceleration * deltaTime;
+	SDL_Log("Velocity: %i, %i", m_velocity.x, m_velocity.y);
 	m_position = m_position + m_velocity * deltaTime;
 	m_acceleration = Vector2(0, 0);
-	//std::cout << m_position.x << ", " << m_position.y << std::endl;
+	
+	// need to work on setting limit to the velocity
+	if (m_velocity.x > 100.0f) {
+		m_velocity.x = m_maxVelocity;
+	}
+	if (m_velocity.y > 100.0f) {
+		m_velocity.y = m_maxVelocity;
+	}
+	if (m_velocity.x < -100.0f) {
+		m_velocity.x = -m_maxVelocity;
+	}
+	if (m_velocity.y < -100.0f) {
+		m_velocity.y = -m_maxVelocity;
+	}
+
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
 	m_texture->Draw(renderer, m_position.x, m_position.y);
+
+	SDL_Rect rect = { m_collider->GetPosition().x, m_collider->GetPosition().y,
+		m_collider->GetWidth(), m_collider->GetHeight() };
+	SDL_RenderDrawRect(renderer, &rect);
 }
 
 void Player::HandleInput() {
 	m_input = Input::GetInstance();
 	if (m_input->IsKeyDown(SDL_SCANCODE_W)) {
-		SetForce(Vector2(0, -100));
+		Vector2 v = Vector2(0, -100);
+		v.Normalize();
+		SetForce(v * 100.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
-		SetForce(Vector2(0, 100));
+		Vector2 v = Vector2(0, 100);
+		v.Normalize();
+		SetForce(v * 100.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
-		SetForce(Vector2(-100, 0));
+		Vector2 v = Vector2(-100, 0);
+		v.Normalize();
+		SetForce(v * 100.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_D)) {
-		SetForce(Vector2(100, 0));
+		Vector2 v = Vector2(100, 0);
+		v.Normalize();
+		SetForce(v * 100.0f);
 	}
 	int x = 0;
 	int y = 0;
@@ -62,6 +94,16 @@ Vector2 Player::GetVelocity()
 	return m_velocity;
 }
 
+AABB * Player::GetCollider()
+{
+	return m_collider;
+}
+
 Player::~Player() {
 	std::cout << "player destructor" << std::endl;
+	// deletes the AABB
+	if (m_collider != nullptr) {
+		delete m_collider;
+		m_collider = nullptr;
+	}
 }

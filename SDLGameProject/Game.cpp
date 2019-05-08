@@ -77,7 +77,7 @@ bool Game::Start() {
 
 		Texture* playerTexture = new Texture();
 		playerTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
-		m_player = new Player(playerTexture, Vector2(100, 10));
+		m_player = new Player(playerTexture, Vector2(115, 100));
 		
 		for (int i = 0; i < 5; ++i) {
 			Texture* enemyTexture = new Texture();
@@ -134,6 +134,14 @@ void Game::Update() {
 	anim->Update(deltaTime);
 	m_player->Update(deltaTime);
 
+	// collision check between player and enemy
+	for (auto e : m_enemies) {
+		if (CollisionCheck(m_player, e)){
+			auto enemy = std::find(m_enemies.begin(), m_enemies.end(), e);
+			m_enemies.erase(enemy);
+			break;
+		}
+	}
 	for (auto itr = m_enemies.begin(); itr != m_enemies.end(); ++itr) {
 		(*itr)->Update(deltaTime);
 	}
@@ -269,6 +277,18 @@ void Game::Quit()
 	if (!isGameOver) {
 		isGameOver = true;
 	}
+}
+
+bool Game::CollisionCheck(Player * p, Enemy * e)
+{
+	if (p->GetCollider() != nullptr)
+	{
+		if (p->GetCollider()->RectangleCollision(*(e->GetCollider())))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 // destructor
