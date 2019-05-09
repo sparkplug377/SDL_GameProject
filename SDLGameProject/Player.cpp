@@ -4,27 +4,31 @@
 
 Player::Player() {
 	m_position = Vector2(0, 0);
+	m_velocity = Vector2(0, 0);
 	m_acceleration = Vector2(0, 0);
 	m_texture = nullptr;
 	std::cout << "player constructor" << std::endl;
 	m_collider = nullptr;
 	m_maxVelocity = 0.0f;
+	m_input = nullptr;
 }
 
 Player::Player(Texture * texture, Vector2 pos) {
 	m_texture = texture;
 	this->m_position = pos;
+	m_velocity = Vector2(0, 0);
 	m_acceleration = Vector2(0, 0);
 	// set up the collider
 	m_collider = new AABB(m_position, m_texture->GetImageWidth(), m_texture->GetImageHeight());
 	m_maxVelocity = 200.0f;
+	m_input = nullptr;
 }
 
 void Player::Update(float deltaTime) {
 	SetForce(m_velocity * -2.00f);
-	m_velocity = m_velocity + m_acceleration * deltaTime;
+	m_velocity += m_acceleration * deltaTime;
 	SDL_Log("Velocity: %f, %f", m_velocity.x, m_velocity.y);
-	m_position = m_position + m_velocity * deltaTime;
+	m_position += m_velocity * deltaTime;
 	m_acceleration = Vector2(0, 0);
 }
 
@@ -71,7 +75,7 @@ void Player::HandleInput() {
 
 void Player::SetForce(Vector2 force)
 {
-	m_acceleration = m_acceleration + force;
+	m_acceleration += force;
 }
 
 Vector2 Player::GetVelocity()

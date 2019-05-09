@@ -8,7 +8,7 @@ public:
 
 	// adds two vectors
 	Vector2 operator+ (const Vector2& anotherVector);
-	Vector2 operator+= (const Vector2& anotherVector);
+	void operator+= (const Vector2& anotherVector);
 
 	// subtracts two vectors
 	Vector2 operator- (const Vector2& anotherVector);

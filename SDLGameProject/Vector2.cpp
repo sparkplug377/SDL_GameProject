@@ -13,10 +13,9 @@ Vector2 Vector2::operator+(const Vector2 & anotherVector){
 	return Vector2(this->x + anotherVector.x, this->y + anotherVector.y);
 }
 
-Vector2 Vector2::operator+=(const Vector2 & anotherVector){
+void Vector2::operator+=(const Vector2 & anotherVector){
 	this->x += anotherVector.x;
 	this->y += anotherVector.y;
-	return *this;
 }
 
 Vector2 Vector2::operator-(const Vector2 & anotherVector){
