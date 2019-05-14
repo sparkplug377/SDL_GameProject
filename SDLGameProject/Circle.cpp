@@ -54,3 +54,8 @@ bool Circle::CircleCollision(const Circle & c)
 
 	return false;
 }
+
+void Circle::Update(Vector2 newPosition)
+{
+	m_position = newPosition;
+}

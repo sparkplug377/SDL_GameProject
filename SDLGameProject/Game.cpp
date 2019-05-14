@@ -134,15 +134,10 @@ void Game::Update() {
 	anim->Update(deltaTime);
 	m_player->Update(deltaTime);
 
-	// collision check between player and enemy
-	for (auto itr = m_enemies.end(); itr != m_enemies.begin();) {
-		--itr;
-		if ((*itr) != nullptr && CollisionCheck(m_player, (*itr))) {
-			delete *itr;
-			*itr = nullptr;
-			itr = m_enemies.erase(itr);
-		}
-	}
+	// Check player-enemy collision
+	PECollisionCheck();
+
+	
 	for (auto itr = m_enemies.begin(); itr != m_enemies.end(); ++itr) {
 		(*itr)->Update(deltaTime);
 	}
@@ -281,16 +276,20 @@ void Game::Quit()
 	}
 }
 
-bool Game::CollisionCheck(Player * p, Enemy * e)
+void Game::PECollisionCheck()
 {
-	if (p->GetCollider() != nullptr)
+	// collision check between player and enemy
+	if (m_player->GetCollider())
 	{
-		if (p->GetCollider()->RectangleCollision(*(e->GetCollider())))
-		{
-			return true;
+		for (auto itr = m_enemies.end(); itr != m_enemies.begin();) {
+			--itr;
+			if ((*itr) != nullptr && m_player->GetCollider()->RectangleCollision(*(*itr)->GetCollider())) {
+				delete *itr;
+				*itr = nullptr;
+				itr = m_enemies.erase(itr);
+			}
 		}
 	}
-	return false;
 }
 
 // destructor

@@ -97,3 +97,8 @@ bool AABB::CircleCollision(const Circle & c)
 
 	return false;
 }
+
+void AABB::Update(Vector2 position)
+{
+	m_position = position;
+}

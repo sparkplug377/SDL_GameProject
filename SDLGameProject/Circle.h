@@ -18,6 +18,9 @@ public:
 	// @brief check if a circle collided with another circle
 	bool CircleCollision(const Circle& c);
 
+	// @brief update circle
+	void Update(Vector2 newPosition);
+
 private:
 	int m_radius;
 	Vector2 m_position;

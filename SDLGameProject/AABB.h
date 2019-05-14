@@ -29,6 +29,9 @@ public:
 	// @brief check if a circle collides with a rectangle
 	bool CircleCollision(const Circle& c);
 
+	// @brief update AABB
+	void Update(Vector2 position);
+
 
 private:
 	Vector2 m_position;

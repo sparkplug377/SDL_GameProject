@@ -47,7 +47,8 @@ public:
 	void Quit();
 
 	// Game Functions =====================================================================
-	bool CollisionCheck(Player* p, Enemy* e);
+	// @brief	player and enemy collision check
+	void PECollisionCheck();
 
 
 	~Game();

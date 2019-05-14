@@ -28,8 +28,20 @@ void Player::Update(float deltaTime) {
 	SetForce(m_velocity * -2.00f);
 	m_velocity += m_acceleration * deltaTime;
 	SDL_Log("Velocity: %f, %f", m_velocity.x, m_velocity.y);
+
+	float length = m_velocity.Magnitude();
+	if (length >= m_maxVelocity) {
+		m_velocity.Normalize();
+		m_velocity = m_velocity * m_maxVelocity;
+	}
+
 	m_position += m_velocity * deltaTime;
+	SDL_Log("Velocity: %f, %f", m_position.x, m_position.y);
+
 	m_acceleration = Vector2(0, 0);
+
+	// update AABB
+	m_collider->Update(m_position);
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
@@ -45,22 +57,22 @@ void Player::HandleInput() {
 	if (m_input->IsKeyDown(SDL_SCANCODE_W)) {
 		Vector2 v = Vector2(0, -100);
 		v.Normalize();
-		SetForce(v * 100.0f);
+		SetForce(v * 1000.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
 		Vector2 v = Vector2(0, 100);
 		v.Normalize();
-		SetForce(v * 100.0f);
+		SetForce(v * 1000.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
 		Vector2 v = Vector2(-100, 0);
 		v.Normalize();
-		SetForce(v * 100.0f);
+		SetForce(v * 1000.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_D)) {
 		Vector2 v = Vector2(100, 0);
 		v.Normalize();
-		SetForce(v * 100.0f);
+		SetForce(v * 1000.0f);
 	}
 	int x = 0;
 	int y = 0;
