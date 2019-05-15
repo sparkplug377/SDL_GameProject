@@ -112,6 +112,21 @@ void Texture::Draw(SDL_Renderer* renderer, int x, int y, SDL_Rect * sourceRect) 
 	SDL_RenderCopy(renderer, m_texture, sourceRect, &destRect);
 }
 
+void Texture::DrawEx(SDL_Renderer * renderer, int x, int y, SDL_Rect * sourceRect, float angle)
+{
+	// set the rendering space and render to dimensions
+	SDL_Rect destRect = { x, y, m_width, m_height };
+
+	// set clip rendering dimensions
+	if (sourceRect != nullptr) {
+		destRect.w = sourceRect->w;
+		destRect.h = sourceRect->h;
+	}
+
+	// render to screen
+	SDL_RenderCopyEx(renderer, m_texture, sourceRect, &destRect, angle, NULL, SDL_FLIP_NONE);
+}
+
 
 void Texture::ResetTexture() {
 	// deallocate the texture

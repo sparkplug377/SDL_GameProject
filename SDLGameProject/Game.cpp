@@ -76,17 +76,22 @@ bool Game::Start() {
 		}
 
 		Texture* playerTexture = new Texture();
-		playerTexture->LoadBMPFromFile("../assets/knight.bmp", sdlRenderer);
-		m_player = new Player(playerTexture, Vector2(200, 100));
-		
-		for (int i = 0; i < 5; ++i) {
-			Texture* enemyTexture = new Texture();
-			enemyTexture->LoadPNGFromFile("../assets/fighter02.png", sdlRenderer);
-			Vector2 pos = Vector2(i * 10, i * 20);
-			Enemy* enemy = new Enemy(enemyTexture, pos);
-			m_enemies.push_back(enemy);
-		}
+		if (playerTexture->LoadPNGFromFile("../assets/ship.png", sdlRenderer)) {
+			std::cout << "Load ship texture - success" << std::endl;
 
+			m_player = new Player(playerTexture, Vector2(200, 100));
+
+			for (int i = 0; i < 5; ++i) {
+				Texture* enemyTexture = new Texture();
+				enemyTexture->LoadPNGFromFile("../assets/fighter02.png", sdlRenderer);
+				Vector2 pos = Vector2(i * 10, i * 20);
+				Enemy* enemy = new Enemy(enemyTexture, pos);
+				m_enemies.push_back(enemy);
+			}
+		}
+		else {
+			std::cout << "Load ship texture - failed" << std::endl;
+		}
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
 
