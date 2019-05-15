@@ -20,7 +20,7 @@ public:
 	// returns the number of frames stored in the array
 	const int GetFrameSize() const;
 
-	// upates each frame
+	// updates each frame
 	void Update(float deltaTime);
 
 	//draws each frame

@@ -1,5 +1,4 @@
 #include "Texture.h"
-#include <iostream>
 
 
 Texture::Texture() {
@@ -21,7 +20,7 @@ bool Texture::LoadBMPFromFile(const char* path, SDL_Renderer* renderer) {
 
 		// if the image was successfully loaded
 		if (loadedSurface != nullptr) {
-			std::cout << "Load Texture - success" << std::endl;
+			SDL_Log("Load Texture - success");
 
 			// color key image
 			SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 255, 255, 255));
@@ -31,24 +30,24 @@ bool Texture::LoadBMPFromFile(const char* path, SDL_Renderer* renderer) {
 
 			// if the texture was successfully created from the loaded surface
 			if (m_texture != nullptr) {
-				std::cout << "Create texture from surface - success" << std::endl;
+				SDL_Log("Create texture from surface - success");
 				// get texture dimensions
 				m_width = loadedSurface->w;
 				m_height = loadedSurface->h;
 			}
 			else {
-				std::cout << "create texture from surface - failed" << SDL_GetError() << std::endl;
+				SDL_Log("create texture from surface - failed %s\n", SDL_GetError());
 			}
 
 			// free the loaded surface
 			SDL_FreeSurface(loadedSurface);
 		}
 		else {
-			std::cout << "Load Texture - failed" << SDL_GetError() << std::endl;
+			SDL_Log("Load Texture - failed %s\n", SDL_GetError());
 		}
 	}
 	else {
-		std::cout << "remove the existing texture before loading a texture" << std::endl;
+		SDL_Log("remove the existing texture before loading a texture");
 		return false;
 	}
 	return m_texture != nullptr;
@@ -65,7 +64,7 @@ bool Texture::LoadPNGFromFile(const char * path, SDL_Renderer * renderer) {
 
 		// if the image was successfully loaded
 		if (loadedSurface != nullptr) {
-			std::cout << "Load Texture - success" << std::endl;
+			SDL_Log("Load Texture - success");
 
 			// color key image
 			SDL_SetColorKey(loadedSurface, SDL_TRUE, SDL_MapRGB(loadedSurface->format, 157, 142, 135));
@@ -75,24 +74,24 @@ bool Texture::LoadPNGFromFile(const char * path, SDL_Renderer * renderer) {
 
 			// if the texture was successfully created from the loaded surface
 			if (m_texture != nullptr) {
-				std::cout << "Create texture from surface - success" << std::endl;
+				SDL_Log("Create texture from surface - success");
 				// get texture dimensions
 				m_width = loadedSurface->w;
 				m_height = loadedSurface->h;
 			}
 			else {
-				std::cout << "create texture from surface - failed" << SDL_GetError() << std::endl;
+				SDL_Log("create texture from surface - failed %s\n", SDL_GetError());
 			}
 
 			// free the loaded surface
 			SDL_FreeSurface(loadedSurface);
 		}
 		else {
-			std::cout << "Load Texture - failed" << SDL_GetError() << std::endl;
+			SDL_Log("Load Texture - failed %s\n", SDL_GetError());
 		}
 	}
 	else {
-		std::cout << "remove the existing texture before loading a texture" << std::endl;
+		SDL_Log("remove the existing texture before loading a texture");
 		return false;
 	}
 	return m_texture != nullptr;

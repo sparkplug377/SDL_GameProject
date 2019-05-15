@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <iostream>
 
 Game* Game::m_instance = nullptr;
 
@@ -16,14 +15,14 @@ Game::Game() {
 		// disable the game loop
 		isGameOver = true;
 		// print a failed message on to the console window
-		std::cout << "Initialize SDL - failed" << std::endl;
+		SDL_Log("Initialize SDL - failed");
 	}
 	// if the initialization was successful
 	else {
 		// enable to game loop
 		isGameOver = false;
 		// print a success message on to the console window
-		std::cout << "Initialize SDL - success" << std::endl;
+		SDL_Log("Initialize SDL - success");
 	}
 }
 
@@ -44,7 +43,7 @@ bool Game::Start() {
 	// create the renderer for the window created.
 	sdlRenderer = SDL_CreateRenderer(sdlWindow, 0, -1);
 	if (sdlRenderer != nullptr) {
-		std::cout << "Create Renderer - success" << std::endl;
+		SDL_Log("Create Renderer - success");
 
 		// TODO: Initialize objects here
 
@@ -52,7 +51,7 @@ bool Game::Start() {
 		m_playerTexture = new Texture();
 		// load the texture
 		if (m_playerTexture->LoadPNGFromFile("../assets/braid_run.png", sdlRenderer)) {
-			std::cout << "Load player texture - success" << std::endl;
+			SDL_Log("Load player texture - success");
 			// initialize player animation
 			anim = new Animation(m_playerTexture, 0.03f);
 			int texWidth = m_playerTexture->GetImageWidth() / 10;
@@ -71,13 +70,13 @@ bool Game::Start() {
 			}
 		}
 		else {
-			std::cout << "Load player texture - failed" << std::endl;
+			SDL_Log("Load player texture - failed");
 			return false;
 		}
 
 		Texture* playerTexture = new Texture();
 		if (playerTexture->LoadPNGFromFile("../assets/ship.png", sdlRenderer)) {
-			std::cout << "Load ship texture - success" << std::endl;
+			SDL_Log("Load ship texture - success");
 
 			m_player = new Player(playerTexture, Vector2(200, 100));
 
@@ -90,7 +89,7 @@ bool Game::Start() {
 			}
 		}
 		else {
-			std::cout << "Load ship texture - failed" << std::endl;
+			SDL_Log("Load ship texture - failed");
 		}
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
@@ -100,7 +99,7 @@ bool Game::Start() {
 
 		return true;
 	}
-	std::cout << "Create Renderer - failed" << std::endl;
+	SDL_Log("Create Renderer - failed");
 	return false;
 }
 
@@ -131,7 +130,7 @@ void Game::Update() {
 
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+	SDL_Log("Deltatime: %f", deltaTime);
 
 	// checks for input from the input
 	ProcessInput(deltaTime);
@@ -198,7 +197,7 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 	// create the renderer and start the game loop
 	if (sdlWindow != nullptr && Start()) {
 		// debug message if the window has been successfully created
-		std::cout << "Create Window - success" << std::endl;
+		SDL_Log("Create Window - success");
 
 		// start the game loop
 		while (!isGameOver) {
@@ -211,7 +210,7 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 	}
 
 	// debug message if the window has been successfully created
-	std::cout << "Create Window - failed" << std::endl;
+	SDL_Log("Create Window - failed");
 
 	// clean up
 	ShutDown();

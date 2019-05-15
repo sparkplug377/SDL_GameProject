@@ -30,6 +30,7 @@ public:
 	// @param renderer - to copy the texture on the renderer
 	// @param x,y - position of the texture on the screen
 	// @param sourceRect - the area we want to copy from a texture onto the window
+	// @param angle - rotates the texture
 	void DrawEx(SDL_Renderer* renderer, int x, int y, SDL_Rect* sourceRect = NULL, float angle = 0.0f);
 
 	// return the texture dimensions

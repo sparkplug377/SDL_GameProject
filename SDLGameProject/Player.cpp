@@ -1,5 +1,4 @@
 ﻿#include "Player.h"
-#include <iostream>
 
 
 Player::Player() {
@@ -7,7 +6,7 @@ Player::Player() {
 	m_velocity = Vector2(0, 0);
 	m_acceleration = Vector2(0, 0);
 	m_texture = nullptr;
-	std::cout << "player constructor" << std::endl;
+	SDL_Log("Player Constructor called");
 	m_collider = nullptr;
 	m_maxVelocity = 0.0f;
 	m_input = nullptr;
@@ -27,7 +26,7 @@ Player::Player(Texture * texture, Vector2 pos) {
 }
 
 void Player::Update(float deltaTime) {
-	// Formula for 2D rotation
+	// ambiguous formula for 2D rotation
 	// x' = x cos f - y sin f
 	// y' = y cos f + x sin f
 	//Vector2 direction = Vector2(0,0);
@@ -58,6 +57,7 @@ void Player::Update(float deltaTime) {
 }
 
 void Player::Draw(SDL_Renderer* renderer) {
+	// draw the texture that includes rotation
 	m_texture->DrawEx(renderer, m_position.x, m_position.y, NULL, m_rotation);
 
 	SDL_Rect rect = { m_collider->GetPosition().x, m_collider->GetPosition().y,
@@ -67,35 +67,42 @@ void Player::Draw(SDL_Renderer* renderer) {
 
 void Player::HandleInput(float deltaTime) {
 	m_input = Input::GetInstance();
-
+	// convert degrees to radians
 	float angle = (3.1415926535897f * m_rotation) / 180.0f;
 
 	if (m_input->IsKeyDown(SDL_SCANCODE_W)) {
+		// direction the player is currently facing
 		Vector2 direction = Vector2(0, 0);
 		direction.x = sin(angle);
 		direction.y = -cos(angle);
+		// move the player in that direction
 		SetForce(direction * 100.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
+		// direction the player is currently facing
 		Vector2 direction = Vector2(0, 0);
 		direction.x = -sin(angle);
 		direction.y = cos(angle);
+		// move the player in that direction
 		SetForce(direction * 100.0f);
 	}
 
 	if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
+		// rotate the player
 		m_rotation -= 100.0f * deltaTime;
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_D)) {
+		// rotate the player
 		m_rotation += 100.0f * deltaTime;
 	}
-	int x = 0;
-	int y = 0;
-	m_input->GetMousePos(&x, &y);
 
-	if (m_input->IsMouseDown(MOUSE_BUTTON_LEFT)) {
-		SetForce(Vector2(x - m_position.x, y - m_position.y));
-	}
+	// Move the player using mouse
+	//int x = 0;
+	//int y = 0;
+	//m_input->GetMousePos(&x, &y);
+	//if (m_input->IsMouseDown(MOUSE_BUTTON_LEFT)) {
+	//	SetForce(Vector2(x - m_position.x, y - m_position.y));
+	//}
 }
 
 void Player::SetForce(Vector2 force)
@@ -114,7 +121,7 @@ AABB * Player::GetCollider()
 }
 
 Player::~Player() {
-	std::cout << "player destructor" << std::endl;
+	SDL_Log("Player Destructor called");
 	// deletes the AABB
 	if (m_collider != nullptr) {
 		delete m_collider;

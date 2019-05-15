@@ -1,11 +1,10 @@
 #include "Enemy.h"
-#include <iostream>
 
 
 Enemy::Enemy() {
+	SDL_Log("Enemy Constructor called");
 	m_position = Vector2(0, 0);
 	m_texture = nullptr;
-	std::cout << "Enemy constructor" << std::endl;
 	m_collider = nullptr;
 }
 
@@ -31,7 +30,7 @@ void Enemy::HandleInput(float deltaTime) {
 
 
 Enemy::~Enemy() {
-	std::cout << "Enemy destructor" << std::endl;
+	SDL_Log("Enemy destructor called");
 	// delete AABB
 	if (m_collider != nullptr) {
 		delete m_collider;

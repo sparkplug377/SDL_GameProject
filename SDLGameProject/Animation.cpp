@@ -45,12 +45,11 @@ void Animation::Update(float deltaTime) {
 			// start again from the first frame
 			m_currentFrame = 0;
 		}
-
 	}
 }
 
 void Animation::Draw(SDL_Renderer * renderer, int x, int y) {
-	// draw
+	// draw 
 	m_spriteSheet->Draw(renderer, x, y, &m_frames[m_currentFrame]);
 }
 
