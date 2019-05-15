@@ -105,7 +105,7 @@ bool Game::Start() {
 }
 
 
-void Game::ProcessInput() {
+void Game::ProcessInput(float deltaTime) {
 	// Update the input
 	Input::GetInstance()->UpdateInput();
 
@@ -115,11 +115,9 @@ void Game::ProcessInput() {
 	}
 
 	// TODO: Get the user input here
-	m_player->HandleInput();
-
-	for (int i = 0; i < m_enemies.size(); ++i) {
-		m_enemies[i]->HandleInput();
-	}
+	
+	// process input from the player
+	m_player->HandleInput(deltaTime);
 }
 
 
@@ -134,6 +132,9 @@ void Game::Update() {
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
 	std::cout << "DeltaTime: " << deltaTime <<  std::endl;
+
+	// checks for input from the input
+	ProcessInput(deltaTime);
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);
@@ -201,9 +202,6 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 
 		// start the game loop
 		while (!isGameOver) {
-			// checks for input from the input
-			ProcessInput();
-
 			// any changes to the AI, physics or player movement
 			Update();
 

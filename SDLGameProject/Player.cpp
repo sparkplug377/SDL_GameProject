@@ -1,4 +1,4 @@
-#include "Player.h"
+﻿#include "Player.h"
 #include <iostream>
 
 
@@ -27,8 +27,15 @@ Player::Player(Texture * texture, Vector2 pos) {
 }
 
 void Player::Update(float deltaTime) {
+	// Formula for 2D rotation
+	// x' = x cos f - y sin f
+	// y' = y cos f + x sin f
+	//Vector2 direction = Vector2(0,0);
+	//direction.x = m_velocity.x * cosf(m_rotation * deltaTime) - m_velocity.y * sinf(m_rotation * deltaTime);
+	//direction.y = m_velocity.y * cosf(m_rotation * deltaTime) + m_velocity.x * sinf(m_rotation * deltaTime);
+
 	// applying friction
-	SetForce(m_velocity * -2.00f);
+	SetForce(m_velocity * -.99f);
 	// change the speed based on acceleration
 	m_velocity += m_acceleration * deltaTime;
 	SDL_Log("Velocity: %f, %f", m_velocity.x, m_velocity.y);
@@ -40,15 +47,8 @@ void Player::Update(float deltaTime) {
 		m_velocity = m_velocity * m_maxVelocity;
 	}
 
-	// Formula for 2D rotation
-	// x' = x cos f - y sin f
-	// y' = y cos f + x sin f
-	Vector2 direction;
-	direction.x = m_velocity.x * cosf(m_rotation * deltaTime) - m_velocity.y * sinf(m_rotation * deltaTime);
-	direction.y = m_velocity.y * cosf(m_rotation * deltaTime) + m_velocity.x * sinf(m_rotation * deltaTime);
-
 	// change the position based on the velocity
-	m_position += direction * deltaTime;
+	m_position += m_velocity * deltaTime;
 	SDL_Log("Velocity: %f, %f", m_position.x, m_position.y);
 
 	m_acceleration = Vector2(0, 0);
@@ -65,30 +65,29 @@ void Player::Draw(SDL_Renderer* renderer) {
 	SDL_RenderDrawRect(renderer, &rect);
 }
 
-void Player::HandleInput() {
+void Player::HandleInput(float deltaTime) {
 	m_input = Input::GetInstance();
+
+	float angle = (3.1415926535897f * m_rotation) / 180.0f;
+
 	if (m_input->IsKeyDown(SDL_SCANCODE_W)) {
-		Vector2 v = Vector2(0, -100);
-		v.Normalize();
-		SetForce(v * 1000.0f);
+		Vector2 direction = Vector2(0, 0);
+		direction.x = sin(angle);
+		direction.y = -cos(angle);
+		SetForce(direction * 100.0f);
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
-		Vector2 v = Vector2(0, 100);
-		v.Normalize();
-		SetForce(v * 1000.0f);
+		Vector2 direction = Vector2(0, 0);
+		direction.x = -sin(angle);
+		direction.y = cos(angle);
+		SetForce(direction * 100.0f);
 	}
 
 	if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
-		//Vector2 v = Vector2(-100, 0);
-		//v.Normalize();
-		//SetForce(v * 1000.0f);
-		m_rotation -= 2.0f;
+		m_rotation -= 100.0f * deltaTime;
 	}
 	if (m_input->IsKeyDown(SDL_SCANCODE_D)) {
-		//Vector2 v = Vector2(100, 0);
-		//v.Normalize();
-		//SetForce(v * 1000.0f);
-		m_rotation += 2.0f;
+		m_rotation += 100.0f * deltaTime;
 	}
 	int x = 0;
 	int y = 0;
@@ -97,8 +96,6 @@ void Player::HandleInput() {
 	if (m_input->IsMouseDown(MOUSE_BUTTON_LEFT)) {
 		SetForce(Vector2(x - m_position.x, y - m_position.y));
 	}
-
-	//std::cout << x << ", " << y << std::endl;
 }
 
 void Player::SetForce(Vector2 force)

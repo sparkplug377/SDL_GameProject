@@ -18,7 +18,7 @@ public:
 	bool Start();
 	
 	// @brief	handles any user input has happened since the last call 
-	void ProcessInput();
+	void ProcessInput(float deltaTime);
 
 	// @brief	advances the game simulation, it runs AI, Physics, player movement
 	void Update();

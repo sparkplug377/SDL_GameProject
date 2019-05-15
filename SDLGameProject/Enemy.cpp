@@ -26,7 +26,7 @@ void Enemy::Draw(SDL_Renderer * renderer) {
 void Enemy::Update(float deltaTime) {
 }
 
-void Enemy::HandleInput() {
+void Enemy::HandleInput(float deltaTime) {
 }
 
 

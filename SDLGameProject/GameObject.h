@@ -11,7 +11,7 @@ public:
 
 	virtual void Draw(SDL_Renderer* renderer) = 0;
 	virtual void Update(float deltaTime) = 0;
-	virtual void HandleInput() = 0;
+	virtual void HandleInput(float deltaTime) = 0;
 
 protected:
 	Vector2 m_position;

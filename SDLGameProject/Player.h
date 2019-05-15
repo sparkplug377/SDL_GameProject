@@ -16,7 +16,7 @@ public:
 
 	void Update(float deltaTime)override;
 	void Draw(SDL_Renderer* renderer) override;
-	void HandleInput() override;
+	void HandleInput(float deltaTime) override;
 
 	// @brief	adds acceleration
 	void SetForce(Vector2 force);
@@ -34,6 +34,8 @@ private:
 	Input*	m_input;
 	AABB*	m_collider;
 	float	m_maxVelocity;
+
+	// for rotation
 	float	m_rotation;
 };
 
