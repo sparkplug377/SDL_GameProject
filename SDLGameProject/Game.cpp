@@ -1,4 +1,6 @@
 #include "Game.h"
+#include <iostream>
+#include <string>
 
 Game* Game::m_instance = nullptr;
 
@@ -11,7 +13,8 @@ Game::Game() {
 
 	// initialize SDL 
 	// if the initialization was not successful
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0 || TTF_Init() == -1 || 
+		Mix_OpenAudio(192000, MIX_DEFAULT_FORMAT, 2, 4096) == -1) {
 		// disable the game loop
 		isGameOver = true;
 		// print a failed message on to the console window
@@ -91,8 +94,32 @@ bool Game::Start() {
 		else {
 			SDL_Log("Load ship texture - failed");
 		}
+
+		// load font
+		// initialize the text texture
+		m_textTexture = new Texture();
+		
+		// load the font with size
+		m_font = TTF_OpenFont("../assets/PressStart2P.ttf", 15);
+
 		// Get the current clock time
 		lastUpdate = SDL_GetTicks();
+		
+		// load audio
+		m_backAudio = Mix_LoadMUS("../assets/audio.mp3");
+		if (m_backAudio != nullptr)
+		{
+			if (Mix_PlayingMusic() == 0)
+			{
+				if (Mix_PlayMusic(m_backAudio, 0) == -1) {
+					return false;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
 
 		// Create an input
 		Input::Create();
@@ -104,7 +131,17 @@ bool Game::Start() {
 }
 
 
-void Game::ProcessInput(float deltaTime) {
+void Game::ProcessInput() {
+	// calculate deltaTime
+	// current time - time since last update
+	unsigned int ticks = SDL_GetTicks() - lastUpdate;
+	// change this to milliseconds;
+	float deltaTime = (ticks / 1000.0f);
+
+	// Get the current time 
+	lastUpdate = SDL_GetTicks();
+	SDL_Log("Deltatime: %f", deltaTime);
+
 	// Update the input
 	Input::GetInstance()->UpdateInput();
 
@@ -117,23 +154,13 @@ void Game::ProcessInput(float deltaTime) {
 	
 	// process input from the player
 	m_player->HandleInput(deltaTime);
+
+	// Call update after the input
+	Update(deltaTime);
 }
 
 
-void Game::Update() {
-
-	// calculate deltaTime
-	// current time - time since last update
-	unsigned int ticks = SDL_GetTicks() - lastUpdate;
-	// change this to milliseconds;
-	float deltaTime = (ticks / 1000.0f);
-
-	// Get the current time 
-	lastUpdate = SDL_GetTicks();
-	SDL_Log("Deltatime: %f", deltaTime);
-
-	// checks for input from the input
-	ProcessInput(deltaTime);
+void Game::Update(float deltaTime) {
 
 	// TODO: update your stuff here
 	anim->Update(deltaTime);
@@ -142,6 +169,18 @@ void Game::Update() {
 	// Check player-enemy collision
 	PECollisionCheck();
 
+	// check if the font has successfully loaded
+	if (m_font != nullptr)
+	{
+		// color of the font
+		SDL_Color color = { 255, 125 , 0, 255 };
+		// rendering text
+		std::string sPosX = std::to_string((int)m_player->GetPosition().x);
+		std::string sPosY = std::to_string((int)m_player->GetPosition().y);
+		if (!m_textTexture->RenderText(("Player Pos, x: " + sPosX + ", y: " + sPosY).c_str(),
+			m_font, sdlRenderer, color)) {
+		}
+	}
 	
 	for (auto itr = m_enemies.begin(); itr != m_enemies.end(); ++itr) {
 		(*itr)->Update(deltaTime);
@@ -167,6 +206,9 @@ void Game::Draw() {
 	for (GameObject* e : m_enemies) {
 		e->Draw(sdlRenderer);
 	}
+
+	// draw text texture
+	m_textTexture->Draw(sdlRenderer, 0, 575);
 
 	// SDL_Renderer* draws to the hidden target. 
 	// This function will take all of that and draws all of that in the window tied to the renderer
@@ -202,7 +244,7 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 		// start the game loop
 		while (!isGameOver) {
 			// any changes to the AI, physics or player movement
-			Update();
+			ProcessInput();
 
 			// draws on the window
 			Draw();
@@ -243,6 +285,12 @@ void Game::ShutDown() {
 
 	// remove input from memory
 	Input::Destroy();
+
+	// remove font from memory
+	if (m_textTexture != nullptr)
+	{
+		delete m_textTexture;
+	}
 }
 
 

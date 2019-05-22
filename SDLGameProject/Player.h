@@ -23,6 +23,9 @@ public:
 	// @brief	retuns player's velocity
 	Vector2 GetVelocity();
 
+	// @brief	returns player's position
+	const Vector2 GetPosition() const;
+
 	// @brief	returns collider 
 	AABB* GetCollider();
 

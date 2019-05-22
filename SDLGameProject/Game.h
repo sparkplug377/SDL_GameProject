@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Player.h"
 #include "Enemy.h"
+#include <SDL_mixer.h>
 
 class Game {
 public:
@@ -18,10 +19,10 @@ public:
 	bool Start();
 	
 	// @brief	handles any user input has happened since the last call 
-	void ProcessInput(float deltaTime);
+	void ProcessInput();
 
 	// @brief	advances the game simulation, it runs AI, Physics, player movement
-	void Update();
+	void Update(float deltaTime);
 
 	// @brief	draws the game so the player can see what happened
 	void Draw();
@@ -78,5 +79,12 @@ private:
 
 	// creating enemies
 	std::vector<Enemy*> m_enemies;
+
+	// font
+	TTF_Font* m_font;
+	Texture* m_textTexture;
+
+	// music
+	Mix_Music* m_backAudio = nullptr; 
  };
 

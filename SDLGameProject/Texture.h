@@ -4,6 +4,7 @@
 // using SDL
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 class Texture {
 public:
@@ -19,6 +20,13 @@ public:
 	// @param path - get the path where the image is store on our computer
 	// @param renderer - to create the texture from SDL_Surface
 	bool LoadPNGFromFile(const char* path, SDL_Renderer* renderer);
+
+	// @brief renders the text from the truetype font file
+	// @param text - text on the screen
+	// @param font - truetype font
+	// @param renderer - to render the text on the screen
+	// @param color - color of the text
+	bool RenderText(const char* text, TTF_Font* font, SDL_Renderer* renderer, SDL_Color color);
 
 	// @brief renders texture to the screen
 	// @param renderer - to copy the texture on the renderer

@@ -97,6 +97,47 @@ bool Texture::LoadPNGFromFile(const char * path, SDL_Renderer * renderer) {
 	return m_texture != nullptr;
 }
 
+bool Texture::RenderText(const char * text, TTF_Font * font, SDL_Renderer * renderer, SDL_Color color)
+{
+	// remove the preexisting texture
+	ResetTexture();
+
+	// check if the texture is a nullptr
+	if (m_texture == nullptr)
+	{
+		// rendering the text to the surface
+		SDL_Surface* textSurface = TTF_RenderText_Solid(font, text, color);
+		if (textSurface != nullptr)
+		{
+			SDL_Log("load text surface - success");
+			// converts the rendered text surface to the texture
+			m_texture = SDL_CreateTextureFromSurface(renderer, textSurface);
+			// if the texture has been loaded successfully
+			if (m_texture != nullptr)
+			{
+				SDL_Log("convert surface to texture - success");
+
+				// get the width and height of the rendered text
+				m_width = textSurface->w;
+				m_height = textSurface->h;
+			}
+			else
+			{
+				SDL_Log("convert surface to texture - failed: %s", SDL_GetError());
+				return false;
+			}
+			// remove the text surface from the memory
+			SDL_FreeSurface(textSurface);
+		}
+		else {
+			SDL_Log("load text surface - failed: %s", TTF_GetError);
+			return false;
+		}
+	}
+
+	return m_texture != nullptr;
+}
+
 void Texture::Draw(SDL_Renderer* renderer, int x, int y, SDL_Rect * sourceRect) {
 	// set the rendering space and render to dimensions
 	SDL_Rect destRect = { x, y, m_width, m_height };

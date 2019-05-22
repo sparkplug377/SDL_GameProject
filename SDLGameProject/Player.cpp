@@ -81,10 +81,10 @@ void Player::HandleInput(float deltaTime) {
 	if (m_input->IsKeyDown(SDL_SCANCODE_S)) {
 		// direction the player is currently facing
 		Vector2 direction = Vector2(0, 0);
-		direction.x = -sin(angle);
-		direction.y = cos(angle);
+		direction.x = sin(angle);
+		direction.y = -cos(angle);
 		// move the player in that direction
-		SetForce(direction * 100.0f);
+		SetForce(direction * -100.0f);
 	}
 
 	if (m_input->IsKeyDown(SDL_SCANCODE_A)) {
@@ -113,6 +113,11 @@ void Player::SetForce(Vector2 force)
 Vector2 Player::GetVelocity()
 {
 	return m_velocity;
+}
+
+const Vector2 Player::GetPosition() const
+{
+	return m_position;
 }
 
 AABB * Player::GetCollider()
