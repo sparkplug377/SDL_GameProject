@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Animation.h"
-#include "Player.h"
-#include "Enemy.h"
-#include <SDL_mixer.h>
+#include "FiniteStateMachine.h"
 
 class Game {
 public:
@@ -13,6 +10,9 @@ public:
 
 	// @brief creates an instance of this class
 	static void Create();
+
+	// @brief	Return the sdlRenderer
+	SDL_Renderer* GetRenderer();
 
 	// @brief	creates the renderer 
 	//			Intial allocations of the objects are done here 
@@ -48,9 +48,6 @@ public:
 	void Quit();
 
 	// Game Functions =====================================================================
-	// @brief	player and enemy collision check
-	void PECollisionCheck();
-
 
 	~Game();
 
@@ -69,22 +66,7 @@ private:
 	// gets the current time since last update
 	unsigned int lastUpdate;
 
-	// player texture
-	Texture* m_playerTexture;
-	// Animating the player
-	Animation* anim;
-
-	// creating a player
-	Player* m_player;
-
-	// creating enemies
-	std::vector<Enemy*> m_enemies;
-
-	// font
-	TTF_Font* m_font;
-	Texture* m_textTexture;
-
-	// music
-	Mix_Music* m_backAudio = nullptr; 
+	// Finite State machine - to manage the game states
+	FiniteStateMachine* m_fsm;
  };
 

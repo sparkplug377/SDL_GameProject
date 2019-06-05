@@ -132,4 +132,8 @@ Player::~Player() {
 		delete m_collider;
 		m_collider = nullptr;
 	}
+	if (m_texture != nullptr) {
+		delete m_texture;
+		m_texture = nullptr;
+	}
 }

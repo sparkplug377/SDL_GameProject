@@ -7,7 +7,7 @@
 class GameObject {
 public:
 	GameObject();
-	~GameObject();
+	virtual ~GameObject();
 
 	virtual void Draw(SDL_Renderer* renderer) = 0;
 	virtual void Update(float deltaTime) = 0;

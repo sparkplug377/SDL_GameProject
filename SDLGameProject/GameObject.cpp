@@ -9,10 +9,5 @@ GameObject::GameObject() {
 
 
 GameObject::~GameObject() {
-	SDL_Log("gameobject destructor");
-	if (m_texture != nullptr) {
-		delete m_texture;
-		m_texture = nullptr;
-	}
 
 }
