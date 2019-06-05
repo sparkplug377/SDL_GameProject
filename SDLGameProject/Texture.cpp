@@ -106,16 +106,16 @@ bool Texture::RenderText(const char * text, TTF_Font * font, SDL_Renderer * rend
 	if (m_texture == nullptr)
 	{
 		// rendering the text to the surface
-		SDL_Surface* textSurface = TTF_RenderText_Solid(font, text, color);
+		SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(font, text, color, 500);
 		if (textSurface != nullptr)
 		{
-			SDL_Log("load text surface - success");
+			//SDL_Log("load text surface - success");
 			// converts the rendered text surface to the texture
 			m_texture = SDL_CreateTextureFromSurface(renderer, textSurface);
 			// if the texture has been loaded successfully
 			if (m_texture != nullptr)
 			{
-				SDL_Log("convert surface to texture - success");
+				//SDL_Log("convert surface to texture - success");
 
 				// get the width and height of the rendered text
 				m_width = textSurface->w;
@@ -130,7 +130,7 @@ bool Texture::RenderText(const char * text, TTF_Font * font, SDL_Renderer * rend
 			SDL_FreeSurface(textSurface);
 		}
 		else {
-			SDL_Log("load text surface - failed: %s", TTF_GetError);
+			SDL_Log("load text surface - failed: %s", TTF_GetError());
 			return false;
 		}
 	}

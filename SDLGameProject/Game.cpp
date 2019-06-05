@@ -138,24 +138,27 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 								width, height,
 								creationFlag);
 
+	if (sdlWindow == nullptr) {
+		// debug message if the window has been successfully created
+		SDL_Log("Create Window - failed");
+	}
 	// if the Window has been created successfully
 	// create the renderer and start the game loop
-	if (sdlWindow != nullptr && Start()) {
-		// debug message if the window has been successfully created
-		SDL_Log("Create Window - success");
+	else {
+		if (Start()) {
+			// debug message if the window has been successfully created
+			SDL_Log("Create Window - success");
 
-		// start the game loop
-		while (!isGameOver) {
-			// any changes to the AI, physics or player movement
-			ProcessInput();
+			// start the game loop
+			while (!isGameOver) {
+				// any changes to the AI, physics or player movement
+				ProcessInput();
 
-			// draws on the window
-			Draw();
+				// draws on the window
+				Draw();
+			}
 		}
 	}
-
-	// debug message if the window has been successfully created
-	SDL_Log("Create Window - failed");
 
 	// clean up
 	ShutDown();

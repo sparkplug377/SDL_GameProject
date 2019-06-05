@@ -44,11 +44,15 @@ void GameState::OnEnter() {
 
 		for (int i = 0; i < 5; ++i) {
 			Texture* enemyTexture = new Texture();
-			enemyTexture->LoadPNGFromFile("../assets/fighter02.png", 
-											Game::GetInstance()->GetRenderer());
-			Vector2 pos = Vector2(i * 10, i * 20);
-			Enemy* enemy = new Enemy(enemyTexture, pos);
-			m_enemies.push_back(enemy);
+			if (enemyTexture->LoadPNGFromFile("../assets/fighter02.png",
+										Game::GetInstance()->GetRenderer())) {
+				SDL_Log("Load Enemy %i Texture - success", i);
+				Vector2 pos = Vector2(i * 10, i * 20);
+				m_enemies.push_back(new Enemy(enemyTexture, pos));
+			}
+			else {
+				SDL_Log("Load Enemy %i Texture - failed", i);
+			}
 		}
 	}
 	else {
@@ -154,6 +158,9 @@ void GameState::OnExit() {
 		m_enemies.pop_back();
 	}
 
+	m_enemies.clear();
+	m_enemies.shrink_to_fit();
+
 	if (m_textTexture != nullptr) {
 		delete m_textTexture;
 		m_textTexture = nullptr;
@@ -163,5 +170,4 @@ void GameState::OnExit() {
 }
 
 GameState::~GameState() {
-	m_enemies.clear();
 }

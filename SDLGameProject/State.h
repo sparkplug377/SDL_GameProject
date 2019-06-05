@@ -20,6 +20,6 @@ public:
 	// cleans up the memory
 	virtual void OnExit() = 0;
 
-	~State() {}
+	virtual ~State() {}
 };
 

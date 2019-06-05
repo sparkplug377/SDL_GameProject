@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include <SDL_mixer.h>
+
 class GameState : public State {
 public:
 	GameState();

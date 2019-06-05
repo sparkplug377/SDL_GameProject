@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "AABB.h"
+
 class Enemy : public GameObject{
 public:
 	Enemy();
