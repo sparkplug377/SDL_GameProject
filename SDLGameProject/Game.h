@@ -14,6 +14,12 @@ public:
 	// @brief	Return the sdlRenderer
 	SDL_Renderer* GetRenderer();
 
+	// @brief	width of the window
+	int GetWindowWidth();
+
+	// @brief	height of the window
+	int GetWindowHeight();
+
 	// @brief	creates the renderer 
 	//			Intial allocations of the objects are done here 
 	bool Start();
@@ -60,6 +66,11 @@ private:
 	SDL_Window* sdlWindow;
 	// 2D rendering context for a window
 	SDL_Renderer* sdlRenderer;
+
+	// window width
+	int m_width;
+	// window height
+	int m_height;
 
 	// flag for the game loop
 	bool isGameOver;

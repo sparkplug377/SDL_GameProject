@@ -49,6 +49,14 @@ SDL_Renderer* Game::GetRenderer() {
 	return sdlRenderer;
 }
 
+int Game::GetWindowWidth() {
+	return m_width;
+}
+
+int Game::GetWindowHeight() {
+	return m_height;
+}
+
 bool Game::Start() {
 	// create the renderer for the window created.
 	sdlRenderer = SDL_CreateRenderer(sdlWindow, 0, -1);
@@ -83,7 +91,7 @@ void Game::ProcessInput() {
 
 	// Get the current time 
 	lastUpdate = SDL_GetTicks();
-	SDL_Log("Deltatime: %f", deltaTime);
+	/*SDL_Log("Deltatime: %f", deltaTime);*/
 
 	// Update the input
 	Input::GetInstance()->UpdateInput();
@@ -145,6 +153,13 @@ void Game::Run(char * title, int width, int height, bool fullscreen) {
 	// if the Window has been created successfully
 	// create the renderer and start the game loop
 	else {
+		// Get the game window dimensions
+		SDL_GetWindowSize(sdlWindow, &m_width, &m_height);
+
+		// log messages to print out the width and height of the window
+		SDL_Log("Window width: %i", m_width);
+		SDL_Log("Window Height: %i", m_height);
+
 		if (Start()) {
 			// debug message if the window has been successfully created
 			SDL_Log("Create Window - success");
