@@ -33,7 +33,7 @@ void MenuState::Draw(SDL_Renderer* renderer) {
 	if (m_font != nullptr) {
 		// color of the font
 		SDL_Color color = { 255, 255 , 255, 255 };
-		if (!m_textTexture->RenderText(("Menu State - Press 'Enter' to play the game & Press'Esc' to Quit."),
+		if (!m_textTexture->RenderText(("Menu State - Press 'P' to play the game & Press'Esc' to Quit."),
 			m_font, renderer, color)) {
 		}
 	}

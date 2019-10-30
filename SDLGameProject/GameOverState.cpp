@@ -2,7 +2,7 @@
 #include "Input.h"
 #include "FiniteStateMachine.h"
 #include "MenuState.h"
-
+#include "Game.h"
 
 GameOverState::GameOverState() {
 }
@@ -19,6 +19,9 @@ void GameOverState::HandleInput(float deltaTime, FiniteStateMachine * fsm) {
 	if (Input::GetInstance()->IsKeyDown(SDL_SCANCODE_RETURN)) {
 		fsm->PopState();
 	}
+	if (Input::GetInstance()->IsKeyDown(SDL_SCANCODE_E)) {
+		Game::GetInstance()->Quit();
+	}
 }
 
 void GameOverState::Update(float deltaTime) {
@@ -28,7 +31,7 @@ void GameOverState::Draw(SDL_Renderer * renderer) {
 	if (m_font != nullptr) {
 		// color of the font
 		SDL_Color color = { 255, 255 , 255, 255 };
-		if (!m_textTexture->RenderText(("Game Over State - Press 'Enter' to play the game & Press'Esc' to Quit."),
+		if (!m_textTexture->RenderText(("Game Over State - Press 'Enter' to return to main menu & Press 'E' to Quit."),
 			m_font, renderer, color)) {
 		}
 	}

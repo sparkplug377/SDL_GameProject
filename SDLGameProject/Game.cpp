@@ -215,6 +215,9 @@ void Game::Destroy() {
 	// shut down the TTF 
 	TTF_Quit();
 
+	// shutdown audio
+	Mix_CloseAudio();
+
 	// destory this class
 	if (m_instance != nullptr) {
 		delete m_instance;

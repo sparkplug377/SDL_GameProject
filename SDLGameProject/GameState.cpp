@@ -10,15 +10,15 @@ GameState::GameState() {
 
 void GameState::OnEnter() {
 	// initialize player texture
-	Texture* m_playerTexture = new Texture();
+	Texture* animTexture = new Texture();
 	// load the texture
-	if (m_playerTexture->LoadPNGFromFile("../assets/braid_run.png", 
+	if (animTexture->LoadPNGFromFile("../assets/braid_run.png", 
 											Game::GetInstance()->GetRenderer())) {
 		SDL_Log("Load player texture - success");
 		// initialize player animation
-		anim = new Animation(m_playerTexture, 0.03f);
-		int texWidth = m_playerTexture->GetImageWidth() / 10;
-		int texHeight = m_playerTexture->GetImageHeight() / 3;
+		anim = new Animation(animTexture, 0.03f);
+		int texWidth = animTexture->GetImageWidth() / 10;
+		int texHeight = animTexture->GetImageHeight() / 3;
 		int totalFrames = 26;
 		int col = 0;
 		int row = 0;
@@ -40,7 +40,8 @@ void GameState::OnEnter() {
 	if (playerTexture->LoadPNGFromFile("../assets/ship.png", Game::GetInstance()->GetRenderer())) {
 		SDL_Log("Load ship texture - success");
 
-		m_player = new Player(playerTexture, Vector2(200, 100));
+		m_player = new Player(playerTexture, Vector2(Game::GetInstance()->GetWindowWidth() / 2- playerTexture->GetImageWidth()/2, 
+												Game::GetInstance()->GetWindowHeight() / 2 - playerTexture->GetImageHeight()/2));
 
 		for (int i = 0; i < 5; ++i) {
 			Texture* enemyTexture = new Texture();
@@ -166,7 +167,9 @@ void GameState::OnExit() {
 		m_textTexture = nullptr;
 	}
 
-	Mix_CloseAudio();
+	if (Mix_PlayingMusic()) { Mix_FadeOutMusic(1000); }
+
+	if (m_backAudio != nullptr) { m_backAudio = nullptr; }
 }
 
 GameState::~GameState() {
